@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   testdocker:
@@ -6,3 +6,18 @@ services:
     build:
       context: ./testDocker
       dockerfile: Dockerfile
+    depends_on:
+      - testdocker.mongo.db
+
+  testdocker.mongo.db:
+     image: 'bitnami/mongodb:latest'
+     volumes:
+      - ./mongoDB:/data/mongo 
+     container_name:  testdocker.mongo.db
+     environment:
+       - MONGODB_USERNAME=user
+       - MONGODB_PASSWORD=password
+       - MONGODB_DATABASE=test
+     ports:
+      - "27017:27017"    
+
